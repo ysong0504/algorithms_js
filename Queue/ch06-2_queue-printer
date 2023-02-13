@@ -1,0 +1,46 @@
+class Queue {
+  constructor() {
+    this.queue = [];
+    this.rear = 0;
+    this.front = 0;
+  }
+
+  enqueue(value) {
+    this.queue[this.rear++] = value;
+  }
+
+  dequeue() {
+    const value = this.queue[this.front];
+    delete this.queue[this.front];
+    this.front++;
+    return value;
+  }
+
+  peak() {
+    return this.queue[this.front];
+  }
+}
+
+function solution(priorities, location) {
+  const queue = new Queue();
+  const doc = new Array(priorities.length).fill("X");
+  // 내가 인쇄를 요청한 문서
+  doc[location] = "O";
+
+  // 가장 앞에 있는 애 확인
+  let curValue = priorities[0];
+  let ans = 1;
+
+  for (let i = 0; i < priorities.length; i++) {
+    const curValue = priorities[i];
+    for (let j = i + 1; j < priorities.length; j++) {
+      if (curValue <= priorities[i]) {
+        queue.enqueue(curValue);
+      }
+    }
+  }
+
+  console.log(queue);
+
+  return ans;
+}
